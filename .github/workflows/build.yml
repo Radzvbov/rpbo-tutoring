@@ -22,9 +22,10 @@ jobs:
           cache: maven
 
       - name: Restore HTTPS keystore from Secrets
+        shell: bash
         run: |
           mkdir -p src/main/resources/certs
-          echo "${{ secrets.HTTPS_KEYSTORE_BASE64 }}" | base64 -d > src/main/resources/certs/tutoring-https.p12
+          echo "${{ secrets.HTTPS_KEYSTORE_BASE64 }}" | base64 --decode > src/main/resources/certs/tutoring-https.p12
 
       - name: Build & test with Maven
         run: mvn -B clean verify
